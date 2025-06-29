@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "bloom-well-462906",
+  "private_key_id": "0bdf97b2dea10b2d9c2f5208588765ccb87b7411",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCpQlITMP1exg5n\n4DmcNziQmkpUbdbUfioEgUAaPcF3oecjk8NB3XmCeDjVvmbqq3By8y8By0SR3mQf\ns8JsrlD4KfgfH/s2WPrjxfzOMPPB3yqlxOY3v8F4HWZE4BXZIwkAhOY3sX1hRTc3\nEWAZibIylscDWv6y6KszeWjeJMEcHTguu0V50Dz+7zdGQaATjM+N1oKx1PmR9wuT\n04fhkiML/WMkM+kYbak7NhDfIQguu+/j5XgQ31H0rdzjY3B9Tng41K1u5pjNrDWK\n8sjF8qeR6sjlopccSLw1548KNPidlInT3axcawMBHSdxpbc7I9BGmhUaKllGtmzB\nieJ03MEDAgMBAAECggEACNpXAvmgfv5apDSWVCU6mFb27/nmGdYsKhvSjQIm5jQk\ngU1fZ0iyFtC6nvS8WvuIQFLs5f9KQQZB9BCJvk0odK/JR7jQrGk0sjOEWLU3GAWt\nVt9OGqNfzKxeUYLrpvWjU7t1Hnuc7w4DkyXzAf2cQZ4g9FF5me+mfg+UccNita7R\nyY5HMICQC1QZQgeVsgIv3lyzLXuiHga85t7vSPz/+nTJ4wYygYZ+nfgMN+T7uGCw\nhPjHWIY2vePguk/wtCEdqLWphF/Aib3aKBAjVF3GsR0YDl/tAZPtEpQX2QdI3MaL\ntDENyo7VJ7DYZ2dcu1F/aWrQUneH9hsgeb3WybHULQKBgQDTLUM6fF308V0P0x1p\ncBIrGwHFSxNUxPwzzQJ6b0Y2xRKetafxXabAsY3eueK67wgjwx1SIaffT/BVWyCn\nDcubgHChDbfshXDwCzX4BrXWLLyFgyw5P49kpsmUosKv6s5royC1QrHMCXM1rPBg\n5edqLP8+ROp9Gmkz8P0bw95CFQKBgQDNL154fchGcWk75AxykIS4pYXllFoWsUIr\nlmJ168JcHiH+lhjxCpNRG9YP3tPO29ImsZgkC3Rk21ZCX9HwprpHt2ItQyCW4tIQ\nRNpl1p4pncGmPfTQPRHeAAZoptE58anjrwHmEIDc9eV1oIeSTVoq6GjPC4el4YNC\n4bp0c2J0twKBgADuZSp/2+Y1nkRwmOObI+lewB4/m4E3MSmFUOp7TSL2sYNTp77v\nu8mDvu1pgm9ymGWX+awgC953OscVlMpHzEsOQPDk35fCauIUGpPSa8DbB6XLE0nZ\nVueJuL/YC+W8slZVLNK/zYrpy8FD1veGbAPS2PlMUoBkumwJNwSFU5iVAoGBAIWO\n1txxa4LG4av1VlDgVzPlslFtDnME8MB0hCSj0ICrsI8J3rRPoPLDvsPX1GEq3xEG\nurSDrEDWMMDFpF8T998ktEgoELeGbxvd5ZcyawNFx75RR+CgT9gEhidqpngkIOSu\njvrVNTwe5zx4wKZvqUiSvV4/8Az+zLUlP3v7e1PjAoGBAJrcgkQnE9gGhpliU7XS\n9K/yETOBc9xrIea4aVnVg4obSvWMAnMHGTCVme9kmLZSccsJxpG4biNIMUnrocK5\ntlb54L2odtXdyAF65KDmhVkEA9/MJN/BcfgsWheKUVewHUdCoAf2p2L70PB/CRRp\nYi4LjM8W4tzndD7Hxm7jxm2E\n-----END PRIVATE KEY-----\n",
+  "client_email": "bloomwell-storage-bot@bloom-well-462906.iam.gserviceaccount.com",
+  "client_id": "109189930581400985991",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bloomwell-storage-bot%40bloom-well-462906.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
