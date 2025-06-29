@@ -1,0 +1,12 @@
+Model,Accuracy,Precision,Recall,F1 Score,Phase
+Logistic Regression,1.0,1.0,1.0,1.0,Before Feature Selection
+Support Vector Machine,1.0,1.0,1.0,1.0,Before Feature Selection
+Neural Network (MLP),1.0,1.0,1.0,1.0,Before Feature Selection
+Random Forest,0.9011979166666667,0.9030514395438345,0.9011979166666666,0.9018066918521892,Before Feature Selection
+Gradient Boosting,0.8825,0.8849963519663241,0.8825,0.8832507381217797,Before Feature Selection
+Naive Bayes,0.8544270833333333,0.8637918316366523,0.8544270833333332,0.8565949921178284,Before Feature Selection
+K-Nearest Neighbors,0.8277083333333334,0.8259593900511856,0.8277083333333334,0.8246675521965248,Before Feature Selection
+Decision Tree,0.7866666666666666,0.7855099999750959,0.7866666666666667,0.7860563877164202,Before Feature Selection
+Random Forest (Selected),0.909765625,0.9112020381599993,0.909765625,0.9102338455716497,After Feature Selection
+Gradient Boosting (Selected),0.8825,0.8849963519663241,0.8825,0.8832507381217797,After Feature Selection
+"Neural Network (MLP, Selected)",1.0,1.0,1.0,1.0,After Feature Selection

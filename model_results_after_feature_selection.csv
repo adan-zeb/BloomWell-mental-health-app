@@ -1,0 +1,4 @@
+Model,Accuracy,Precision,Recall,F1 Score
+Random Forest (Selected),0.909765625,0.9112020381599993,0.909765625,0.9102338455716497
+Gradient Boosting (Selected),0.8825,0.8849963519663241,0.8825,0.8832507381217797
+"Neural Network (MLP, Selected)",1.0,1.0,1.0,1.0
