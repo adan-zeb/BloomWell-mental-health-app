@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mental Health Intake</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+  :root {
+  --blue: #D97AB6; /* New button color for "Next" and primary */
+  --green: #A0D995; /* New button color for "Back" */
+  --light: #FFF0F6;
+  --dark: #333;
+  --muted: #666;
+  --card-bg: #ffffffcc;
+  --hint-bg: #FFF7E6;
+  --hint-accent: #F5A623;
+  --radius: 14px;
+  --gap: 1.5rem;
+}
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(96.76deg, #e5e3a560 0%, #cc5879e8 141.26%); 
+      color: var(--dark);
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 1rem 2rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      font-weight: 600;
+      margin-bottom: .5rem;
+      color: var(--blue);
+    }
+
+    h3 {
+      color: var(--dark);
+    }
+
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      color: var(--muted);
+      margin-left: .3rem;
+      cursor: help;
+    }
+
+    .tooltip::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--dark);
+      color: #fff;
+      padding: .5rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 10;
+    }
+
+    .tooltip:hover::after {
+      opacity: 1;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: #ddd;
+      border-radius: var(--radius);
+      margin-bottom: var(--gap);
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(96.76deg, #e5e3a560 0%,rgb(181, 130, 207) 141.26%);
+      transition: width 0.4s ease;
+    }
+
+    .section {
+      display: none;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: var(--gap);
+      margin-bottom: var(--gap);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .q-card {
+      margin-bottom: 1.5rem;
+    }
+
+    .q-card label.main {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .q-card select,
+    .q-card input[type="number"] {
+      width: 100%;
+      padding: 0.7rem;
+      font-size: 1rem;
+      border-radius: var(--radius);
+      border: 1px solid #ccc;
+      background: #fff;
+    }
+
+    .radio-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .radio-group input[type="radio"] {
+      display: none;
+    }
+
+    .radio-group label {
+      padding: 0.6rem;
+      border-radius: var(--radius);
+      border: 1px solid #ccc;
+      text-align: center;
+      cursor: pointer;
+      background: #f9f9f9;
+      transition: all 0.2s ease;
+    }
+
+    .radio-group input[type="radio"]:checked + label {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: var(--gap);
+    }
+
+    .nav button {
+      padding: 0.8rem 1.6rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: var(--radius);
+      color: #fff;
+      background: var(--blue);
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s;
+    }
+
+    .nav button:disabled {
+      background: #bbb;
+      cursor: default;
+    }
+
+    .nav button#back {
+      background: var(--green);
+    }
+
+    .nav button:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    #result {
+      background: #fff;
+      padding: 1rem;
+      border-radius: var(--radius);
+      white-space: pre-wrap;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+      margin-top: 2rem;
+    }
+
+    .support-hint {
+      font-size: 0.9rem;
+      color: var(--hint-accent);
+      background: var(--hint-bg);
+      padding: 0.75rem;
+      border-radius: var(--radius);
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .support-hint.visible {
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="progress-bar"><div id="progress" class="progress"></div></div>
+    <form id="predictForm">
+      <!-- Section 1: Basic Demographics -->
+      <div class="section" id="sec-0">
+        <h2>1. Basic Information</h2>
+        <div class="q-card">
+          <label class="main">
+            Age Group
+            <span class="tooltip" data-tip="Select the bracket that includes your current age.">ⓘ</span>
+          </label>
+          <select name="Age_Group" required>
+            <option value="">–</option>
+            <option value="0">Under 18</option>
+            <option value="1">18–29</option>
+            <option value="2">30–44</option>
+            <option value="3">45–59</option>
+            <option value="4">60+</option>
+          </select>
+        </div>
+        <div class="q-card">
+          <label class="main">
+            Gender
+            <span class="tooltip" data-tip="Choose the gender you identify with.">ⓘ</span>
+          </label>
+          <select name="Gender" required>
+            <option value="">–</option>
+            <option value="0">Male</option>
+            <option value="1">Female</option>
+            <option value="2">Other</option>
+          </select>
+        </div>
+        <div class="q-card">
+          <label class="main">
+            Employment Status
+            <span class="tooltip" data-tip="Select your current work or education situation.">ⓘ</span>
+          </label>
+          <select name="Employment_Status" required>
+            <option value="">–</option>
+            <option value="0">Full-time</option>
+            <option value="1">Part-time</option>
+            <option value="2">Unemployed</option>
+            <option value="3">Student</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Section 2: Lifestyle & Wellbeing -->
+      <div class="section" id="sec-1">
+        <h2>2. Lifestyle & Well-Being</h2>
+        <div class="q-card">
+          <label class="main">
+            Sleep Hours (avg per night)
+            <span class="tooltip" data-tip="Average number of hours you slept each night in the past week.">ⓘ</span>
+          </label>
+          <select name="Sleep_Hours" required>
+            <option value="">–</option>
+            <script>
+              for(let i=0;i<=24;i++){
+                document.write(`<option value="${i}">${i} hours</option>`);
+              }
+            </script>
+          </select>
+        </div>
+        <div class="q-card">
+          <label class="main">
+            Sleep Quality
+            <span class="tooltip" data-tip="How restful and uninterrupted your sleep felt.">ⓘ</span>
+          </label>
+          <select name="Sleep_Quality" required>
+            <option value="">–</option>
+            <option value="0">Very poor</option>
+            <option value="1">Poor</option>
+            <option value="2">Fair</option>
+            <option value="3">Good</option>
+            <option value="4">Very good</option>
+          </select>
+        </div>
+        <div class="q-card">
+          <label class="main">
+            Physical Activity
+            <span class="tooltip" data-tip="Number of days this week you engaged in moderate exercise.">ⓘ</span>
+          </label>
+          <select name="Physical_Activity" required>
+            <option value="">–</option>
+            <option value="0">None</option>
+            <option value="1">1–2 days</option>
+            <option value="2">3–4 days</option>
+            <option value="3">5+ days</option>
+          </select>
+        </div>
+        <div class="q-card">
+          <label class="main">
+            Social Interaction
+            <span class="tooltip" data-tip="How frequently you interacted socially this past week.">ⓘ</span>
+          </label>
+          <select name="Social_Interaction" required>
+            <option value="">–</option>
+            <option value="0">Never</option>
+            <option value="1">Rarely</option>
+            <option value="2">Sometimes</option>
+            <option value="3">Often</option>
+            <option value="4">Very often</option>
+          </select>
+        </div>
+        <div class="q-card">
+          <label class="main">
+            Substance Use
+            <span class="tooltip" data-tip="Select the primary substance you use, if any.">ⓘ</span>
+          </label>
+          <select name="Substance_Use" required>
+            <option value="">–</option>
+            <option value="0">None</option>
+            <option value="1">Nicotine</option>
+            <option value="2">Alcohol</option>
+            <option value="3">Other</option>
+          </select>
+        </div>
+        <div class="q-card">
+          <label class="main">
+            Mood Rating
+            <span class="tooltip" data-tip="Your overall emotional state today (0=Very low, 10=Very high).">ⓘ</span>
+          </label>
+          <select name="Mood_Rating" required>
+            <option value="">–</option>
+            <script>
+              for(let i=0;i<=10;i++){
+                document.write(`<option value="${i}">${i}</option>`);
+              }
+            </script>
+          </select>
+        </div>
+        <div class="q-card">
+          <label class="main">
+            Stress Level
+            <span class="tooltip" data-tip="Your perceived stress level today (0=None, 10=Unbearable).">ⓘ</span>
+          </label>
+          <select name="Stress_Level" required>
+            <option value="">–</option>
+            <script>
+              for(let i=0;i<=10;i++){
+                document.write(`<option value="${i}">${i}</option>`);
+              }
+            </script>
+          </select>
+        </div>
+      </div>
+
+      <!-- Section 3: Medical -->
+      <div class="section" id="sec-2">
+        <h2>3. Medical Background</h2>
+        <div class="q-card">
+          <label class="main">
+            Chronic Health Conditions
+            <span class="tooltip" data-tip="Do you have any long-term physical health conditions?">ⓘ</span>
+          </label>
+          <select name="Chronic_Health_Conditions" required>
+            <option value="">–</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+          </select>
+        </div>
+        <div class="q-card">
+          <label class="main">
+            Medication Usage
+            <span class="tooltip" data-tip="Are you currently taking any mental health-related medication?">ⓘ</span>
+          </label>
+          <select name="Medication_Usage" required>
+            <option value="">–</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Section 4 and 5 to come next -->
+      <!-- Section 4: PHQ-9 -->
+      <div class="section" id="sec-3">
+        <h2>
+          4. PHQ-9
+          <span class="tooltip" data-tip="Over the last 2 weeks: 0=Not at all, 1=Several days, 2=Half the days, 3=Nearly every day">ⓘ</span>
+        </h2>
+        <div id="phqContainer"></div>
+        <div id="phqHint" class="support-hint">It looks like you’ve been really stressed lately — hang in there.</div>
+      </div>
+
+      <!-- Section 5: GAD-7 -->
+      <div class="section" id="sec-4">
+        <h2>
+          5. GAD-7
+          <span class="tooltip" data-tip="Over the last 2 weeks: 0=Not at all, 1=Several days, 2=Half the days, 3=Nearly every day">ⓘ</span>
+        </h2>
+        <div id="gadContainer"></div>
+        <div id="gadHint" class="support-hint">It looks like anxiety may be high — you're not alone.</div>
+      </div>
+      
+    <!--tone-->
+    <div class="q-card">
+  <label class="main">
+    Preferred Tone
+    <span class="tooltip" data-tip="Choose how you’d like the AI to speak with you.">ⓘ</span>
+  </label>
+  <select name="Tone" required>
+    <option value="Supportive">Supportive (calm and kind)</option>
+    <option value="Motivational">Motivational (encouraging and uplifting)</option>
+    <option value="Direct">Direct (short and straight to the point)</option>
+  </select>
+</div>
+
+
+      <!-- Section 6: Consent -->
+      <div class="section" id="sec-5">
+        <h2>6. Consent</h2>
+        <div class="q-card">
+          <label>
+            <input type="checkbox" name="consent" required />
+            I consent to using my answers to generate a mental health prediction.
+          </label>
+        </div>
+      </div>
+    </form>
+
+    <div class="nav">
+      <button id="back" disabled>Back</button>
+      <button id="next">Next</button>
+    </div>
+
+  </div>
+
+  <script>
+    const sections = [...document.querySelectorAll('.section')];
+    const progress = document.getElementById('progress');
+    let current = 0;
+
+    function show(index) {
+      sections.forEach((s, i) => s.style.display = i === index ? 'block' : 'none');
+      document.getElementById('back').disabled = index === 0;
+      document.getElementById('next').textContent = index === sections.length - 1 ? 'Submit' : 'Next';
+      progress.style.width = ((index + 1) / sections.length * 100) + '%';
+    }
+
+    document.getElementById('back').onclick = () => {
+      if (current > 0) show(--current);
+    };
+    document.getElementById('next').onclick = () => {
+      if (current < sections.length - 1) {
+        show(++current);
+      } else {
+        document.getElementById('predictForm').requestSubmit();
+      }
+    };
+    show(0);
+  </script>
+
+  <script>
+    // Render PHQ-9 and GAD-7 dynamically
+    const phqQs = [
+      "Little interest or pleasure in doing things?",
+      "Feeling down, depressed, or hopeless?",
+      "Trouble sleeping or sleeping too much?",
+      "Feeling tired or having little energy?",
+      "Poor appetite or overeating?",
+      "Feeling bad about yourself?",
+      "Trouble concentrating?",
+      "Moving slowly or restless?",
+      "Thoughts of self-harm?"
+    ];
+    const gadQs = [
+      "Feeling nervous or anxious?",
+      "Unable to stop worrying?",
+      "Worrying too much about different things?",
+      "Trouble relaxing?",
+      "Being so restless it's hard to sit still?",
+      "Becoming easily annoyed or irritable?",
+      "Feeling afraid something awful might happen?"
+    ];
+
+    function renderRadio(name, idx, labelText) {
+      return `
+        <div class="q-card">
+          <label class="main">${idx + 1}. ${labelText}</label>
+          <div class="radio-group">
+            <input type="radio" id="${name}_${idx}_0" name="${name}_Item_${idx + 1}" value="0" required />
+            <label for="${name}_${idx}_0">Not at all</label>
+            <input type="radio" id="${name}_${idx}_1" name="${name}_Item_${idx + 1}" value="1" />
+            <label for="${name}_${idx}_1">Several days</label>
+            <input type="radio" id="${name}_${idx}_2" name="${name}_Item_${idx + 1}" value="2" />
+            <label for="${name}_${idx}_2">More than half</label>
+            <input type="radio" id="${name}_${idx}_3" name="${name}_Item_${idx + 1}" value="3" />
+            <label for="${name}_${idx}_3">Nearly every day</label>
+          </div>
+        </div>`;
+    }
+
+    document.getElementById('phqContainer').innerHTML =
+      phqQs.map((q, i) => renderRadio('PHQ9', i, q)).join('');
+    document.getElementById('gadContainer').innerHTML =
+      gadQs.map((q, i) => renderRadio('GAD7', i, q)).join('');
+  </script>
+
+  <script>
+    // Hint logic: show if 2+ questions scored 3
+    const answers = {};
+    document.addEventListener('change', e => {
+      const { name, value } = e.target;
+      if (/PHQ9|GAD7/.test(name)) {
+        answers[name] = parseInt(value);
+        const count3 = Object.values(answers).filter(v => v === 3).length;
+        document.getElementById('phqHint').classList.toggle('visible', count3 >= 2);
+        document.getElementById('gadHint').classList.toggle('visible', count3 >= 2);
+      }
+    });
+  </script>
+
+  <script>
+    // Final submit via fetch
+    document.getElementById('predictForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = {};
+      formData.forEach((value, key) => {
+      if (key !== 'consent') {
+        data[key] = isNaN(value) ? value : parseFloat(value);
+      }
+      });
+
+
+      fetch('/api/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(res => {
+  if (res.redirect_url) {
+    window.location.href = res.redirect_url;
+  } else {
+    document.getElementById('result').textContent = 'Prediction complete, but no redirect URL returned.';
+  }
+})
+
+
+      .catch(err => {
+        document.getElementById('result').textContent = 'Error: ' + err;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get Started | BloomWell</title>
+
+  <!-- Local CSS -->
+  <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='assets/css/aos.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='assets/css/custom.css') }}" rel="stylesheet" />
+
+  <!-- CDN CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <style>
+    .intro-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url("{{ url_for('static', filename='assets/images/bg-banner.png') }}") center/cover no-repeat;
+    }
+
+    .intro-overlay {
+      background: linear-gradient(96.76deg, #e5e3a560 0%, rgba(157, 22, 60, 0.91) 141.26%);
+      padding: 60px;
+      border-radius: 32px;
+      max-width: 2000px;
+      text-align: center;
+    }
+
+    .intro-overlay h1 {
+      font-size: 56px;
+      opacity: 0;
+      animation: fadeIn 2s ease-in-out forwards;
+    }
+
+    .typewriter-text {
+      margin-top: 30px;
+      font-size: 20px;
+      min-height: 120px;
+      white-space: pre-wrap;
+      opacity: 0;
+    }
+
+    .start-btn {
+      margin-top: 40px;
+      opacity: 0;
+      transition: opacity 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="main-header position-fixed w-100">
+    <nav class="navbar navbar-expand-xl">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+          <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="BloomWell" />
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+          <span class="toggle-bar"></span><span class="toggle-bar"></span><span class="toggle-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="main-menu navbar-nav me-auto mb-2 mb-lg-0 nav-items position-relative">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Getting Started</a></li>
+          </ul>
+          <div class="d-flex navbar-nav ml-auto w-100 justify-content-end menu-right-btn">
+            <a class="btn btn-outline-primary ml-2" href="{{ url_for('login') }}">Login</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="intro-section">
+    <div class="intro-overlay">
+      <h1 id="intro-heading"><br>Welcome to BloomWell</h1>
+      <p id="typewriter" class="typewriter-text"></p>
+      <a href="{{ url_for('predict_form') }}" class="btn btn-primary" id="start-btn">Begin Your Journey</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="row footer-top">
+          <div class="col-lg-6 logo-col">
+            <a href="{{ url_for('home') }}">
+              <img src="{{ url_for('static', filename='assets/images/logo.svg') }}" alt="BloomWell Logo" />
+            </a>
+          </div>
+          <div class="col-lg-3">
+            <ul>
+              <li><a href="{{ url_for('home') }}">Home</a></li>
+              <li><a href="#partners">Our Philosophy</a></li>
+              <li><a href="#testimonials">Mission</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#contact">SignUp</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 footer-last-col">
+            <a href="{{ url_for('get_started') }}" class="btn btn-primary btn-icon">Get Started</a>
+          </div>
+        </div>
+        <div class="row footer-bottom">
+          <div class="col-lg-6">
+            <a class="linkedin" href="#">
+              <span>
+                <img src="{{ url_for('static', filename='assets/images/in.png') }}" alt="LinkedIn Icon" />
+              </span>connect with us!
+            </a>
+          </div>
+          <div class="col-lg-3 email-col">
+            <a href="mailto:register@bloomwell.com">register@bloomwell.com</a>
+          </div>
+          <div class="col-lg-3 footer-last-col">
+            <p class="copyright">© 2025 — BloomWell</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" type="text/javascript"></script>
+  <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}" type="text/javascript"></script>
+  <script src="{{ url_for('static', filename='assets/js/aos.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/custom.js') }}" type="text/javascript"></script>
+
+  <script>
+    // Typewriter effect
+    const text = `\nWelcome to your safe space. First, we'll gently guide you through a brief intake form — asking about your current feelings, lifestyle, and emotional well-being. Our system would form a gentle hypothesis and begin a supportive conversation to understand you better.\n\nThrough tailored questions, reflections, and empathy, \n\nFinally, we’ll offer a personalized summary: insights, coping tools, and a path forward — uniquely shaped for you.\n`
+
+    let i = 0;
+    const speed = 40;
+
+    function typeWriter() {
+      const el = document.getElementById("typewriter");
+      if (i < text.length) {
+        el.innerHTML += text.charAt(i);
+        i++;
+        el.style.opacity = 1;
+        setTimeout(typeWriter, speed);
+      } else {
+        document.getElementById("start-btn").style.opacity = 1;
+      }
+    }
+
+    window.onload = () => {
+      setTimeout(typeWriter, 2000);
+    };
+  </script>
+</body>
+</html>

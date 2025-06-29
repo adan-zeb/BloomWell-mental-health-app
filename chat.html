@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Mental Health Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue: #4A90E2;
+      --green: #7ED321;
+      --light: #F5F7FA;
+      --dark: #333;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light);
+      padding: 2rem;
+      color: var(--dark);
+    }
+
+   .chat-container {
+  background: white;
+  border-radius: 0;
+  width: 100%;
+  max-width: none;
+  padding: 2rem 4rem;
+  box-shadow: none;
+  min-height: 100vh;
+}
+
+
+
+    h2 {
+      margin-top: 0;
+      font-weight: 600;
+    }
+
+    .metrics {
+      margin-bottom: 2rem;
+    }
+
+    .metrics p {
+      font-size: 1.1rem;
+      margin: 0.5rem 0;
+    }
+
+    #chat {
+      max-height: 360px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      padding-right: 1rem;
+      scroll-behavior: smooth;
+    }
+
+    .msg {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      animation: fadeInUp 0.3s ease forwards;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .msg.user {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+
+    .msg .bubble {
+  padding: 0.9rem 1.2rem;
+  border-radius: 16px;
+  max-width: 95%;
+  width: fit-content;
+  font-size: 1rem;
+  line-height: 1.6;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  word-wrap: break-word;
+}
+
+
+    .msg.user .bubble {
+      background: var(--green);
+      color: white;
+    }
+
+    .msg.ai .bubble {
+      background: var(--blue);
+      color: white;
+    }
+
+    .msg .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #ccc;
+      flex-shrink: 0;
+    }
+
+    .msg.user .avatar { background: #7ED321; }
+    .msg.ai .avatar { background: #4A90E2; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    textarea {
+      width: 100%;
+      height: 80px;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-top: 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    button {
+      font-weight: 600;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      border-radius: 50px;
+      cursor: pointer;
+      background: linear-gradient(to right, #ff80ab, #c56cf0);
+      color: white;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    button:disabled {
+      background: #bbb;
+      cursor: default;
+    }
+
+    .report-wrapper {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .report-wrapper h4 {
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+      color: var(--blue);
+    }
+
+    .report-wrapper p {
+      margin-bottom: 1rem;
+    }
+
+    .report-wrapper strong {
+      color: #111;
+    }
+
+    .disclaimer {
+      margin-top: 3rem;
+      font-size: 0.95rem;
+      color: #777;
+      text-align: center;
+      border-top: 1px solid #eee;
+      padding-top: 1.5rem;
+    }
+
+    .report-wrapper h4 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  color: var(--blue);
+  border-left: 4px solid var(--blue);
+  padding-left: 0.75rem;
+}
+
+.report-wrapper p {
+  margin: 0.5rem 0 1rem;
+  line-height: 1.7;
+}
+
+.report-wrapper ol,
+.report-wrapper ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.report-wrapper li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .msg .bubble {
+    max-width: 85%;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <h2>Prediction Results</h2>
+    <div class="metrics">
+      <p><strong>Depression:</strong> <span id="dep">—</span></p>
+      <p><strong>Anxiety:</strong> <span id="anx">—</span></p>
+    </div>
+
+    <div id="chat"></div>
+
+    <textarea id="userInput" placeholder="Type your response..."></textarea>
+    <div class="btn-group">
+      <button onclick="send()">Send</button>
+      <button id="endChat">Finish Conversation</button>
+    </div>
+
+    <!-- ✅ FIXED: final report is now a div, not pre -->
+    <div id="finalReport" class="report-wrapper"></div>
+
+    <p class="disclaimer">
+      ⚠️ <strong>Disclaimer:</strong> This conversation is not a substitute for professional medical advice.
+      If you are experiencing intense or uncontrollable feelings, please seek help from a qualified healthcare provider or mental health specialist.
+    </p>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const dep = urlParams.get('depression');
+    const anx = urlParams.get('anxiety');
+    const first = urlParams.get('first_question');
+    const tone = urlParams.get("tone") || "Supportive";
+
+    document.getElementById('dep').textContent = dep || '—';
+    document.getElementById('anx').textContent = anx || '—';
+
+    const chat = document.getElementById('chat');
+
+    const messages = [
+      {
+        role: "system",
+        content: `You are a certified therapist with a ${tone.toLowerCase()} tone. Ask only one brief, focused question per reply. You may conclude the session when appropriate.`
+      },
+      {
+        role: "user",
+        content: "Based on the user's form data, please help them reflect on their emotional state."
+      },
+      {
+        role: "assistant",
+        content: decodeURIComponent(first || "How can I support you today?")
+      }
+    ];
+
+    function render(role, content) {
+      const div = document.createElement('div');
+      div.className = `msg ${role}`;
+      div.innerHTML = `
+        <div class="avatar"></div>
+        <div class="bubble">${content}</div>
+      `;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    render("ai", decodeURIComponent(first || ""));
+
+    function send() {
+      const input = document.getElementById("userInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      render("user", text);
+      messages.push({ role: "user", content: text });
+      input.value = "";
+
+      fetch("/api/chat", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages })
+      })
+      .then(async res => {
+        const text = await res.text();
+        try {
+          const json = JSON.parse(text);
+          if (json.content) {
+            messages.push({ role: "assistant", content: json.content });
+            render("ai", json.content);
+
+            const lowered = json.content.toLowerCase();
+            if (
+              lowered.includes("pause for now") ||
+              lowered.includes("we’ve covered a lot today") ||
+              lowered.includes("we've covered enough") ||
+              lowered.includes("i'm here if you need me again")
+            ) {
+              document.getElementById("endChat").disabled = false;
+              document.getElementById("endChat").textContent = "Get Final Report";
+            }
+          } else {
+            alert("AI Error: " + JSON.stringify(json));
+          }
+        } catch (err) {
+          alert("Chat error: " + text);
+        }
+      });
+    }
+
+    document.getElementById("endChat").onclick = () => {
+      document.getElementById("endChat").disabled = true;
+      fetch("/api/summary?tone=" + encodeURIComponent(tone), {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages })
+      })
+      .then(async res => {
+        const text = await res.text();
+        try {
+          const json = JSON.parse(text);
+          // ✅ Use innerHTML to render formatted summary
+          document.getElementById("finalReport").innerHTML = json.content || "<p>Summary failed.</p>";
+        } catch (e) {
+          document.getElementById("finalReport").innerHTML = "<p>Summary error:</p><pre>" + text + "</pre>";
+        }
+      })
+      .catch(err => {
+        document.getElementById("finalReport").innerHTML = "<p>Error:</p><pre>" + err + "</pre>";
+      });
+    };
+  </script>
+</body>
+</html>
